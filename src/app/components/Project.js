@@ -31,7 +31,7 @@ const Project = ({ project, updateProject }) => {
   };
 
   return (
-    <div className="p-4 text-white" onDoubleClick={handleDoubleClick}>
+    <div className="p-4 text-white h-full" onDoubleClick={handleDoubleClick}>
       <h2
         className="text-2xl font-bold mb-4 text-white no-drag focus:outline-none inline-block"
         contentEditable
