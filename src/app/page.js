@@ -6,10 +6,10 @@ import ClientResponsiveGridLayout from "./components/ClientResponsiveGridLayout"
 import Project from "./components/Project";
 
 export default function Home() {
-  const [projects, setProjects] = useState({lg: []});
+  const [projects, setProjects] = useState({ lg: [] });
 
   useEffect(() => {
-    setProjects(JSON.parse(localStorage.getItem('projects')) || {lg: []})
+    setProjects(JSON.parse(localStorage.getItem("projects")) || { lg: [] });
   }, []);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function Home() {
       w: newProjectWidth,
       h: 5,
       tasks: [],
-      title: "New Project"
+      title: "New Project",
     };
 
     setProjects((prevProjects) => ({
@@ -72,6 +72,16 @@ export default function Home() {
     });
   };
 
+  const handleRemoveProject = (p) => {
+    if (p.tasks.filter((t) => !t.completed).length === 0) {
+      setProjects((prevProjects) => ({
+        lg: prevProjects.lg.filter((project) => project.i !== p.i),
+      }));
+      const audio = new Audio("/audio/pop.mp3");
+      audio.play();
+    }
+  };
+
   return (
     <>
       <ClientResponsiveGridLayout
@@ -79,11 +89,12 @@ export default function Home() {
         onLayoutChange={handleLayoutChange}
       >
         {projects.lg.map((project) => (
-          <div
-            key={project.i}
-            className="bg-[#656773] rounded-3xl text-xl text-center select-none z-50"
-          >
-            <Project project={project} updateProject={updateProject} />
+          <div key={project.i} className="z-50">
+            <Project
+              project={project}
+              updateProject={updateProject}
+              removeProject={handleRemoveProject}
+            />
           </div>
         ))}
       </ClientResponsiveGridLayout>

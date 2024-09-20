@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const Task = ({ task, onTaskChange, onTaskToggle }) => {
   const spanRef = React.useRef(null);
@@ -9,7 +9,15 @@ const Task = ({ task, onTaskChange, onTaskToggle }) => {
       const trimmedText = spanRef.current.innerText.trim();
       spanRef.current.innerText = trimmedText;
       spanRef.current.blur();
-      onTaskChange(trimmedText)
+      onTaskChange(trimmedText);
+    }
+  };
+
+  const onTaskClick = (e) => {
+    if (e.metaKey) {
+      const audio = new Audio("/audio/pop.mp3");
+      audio.play();
+      onTaskToggle();
     }
   };
 
@@ -18,20 +26,17 @@ const Task = ({ task, onTaskChange, onTaskToggle }) => {
       className="flex items-start mb-2 no-drag"
       onDoubleClick={(e) => e.stopPropagation()}
     >
-      <input
-        type="checkbox"
-        checked={task.completed}
-        onChange={onTaskToggle}
-        className="mr-2 mt-1 w-5 h-5 border-red-300 border-2 rounded-none flex-shrink-0"
-      />
       <span
         ref={spanRef}
         contentEditable
         onKeyDown={handleKeyDown}
         suppressContentEditableWarning
         autoFocus={true}
-        onBlur={e => onTaskChange(e.target.innerText.trim())}
-        className={`text-white outline-none ${task.completed ? "line-through" : ""}`}
+        onClick={onTaskClick}
+        onBlur={(e) => onTaskChange(e.target.innerText.trim())}
+        className={`text-white bg-black bg-opacity-20 px-4 py-1 rounded-xl outline-none poppable ${
+          task.completed ? "line-through" : ""
+        }`}
       >
         {task.label}
       </span>

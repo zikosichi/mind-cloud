@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Task from "./Task";
 
-const Project = ({ project, updateProject }) => {
+const Project = ({ project, updateProject, removeProject }) => {
   const handleDoubleClick = () => {
     const newTask = {
       id: `task-${project.tasks.length + 1}`,
@@ -30,8 +30,20 @@ const Project = ({ project, updateProject }) => {
     updateProject({ ...project, tasks: updatedTodos });
   };
 
+  const uncheckedTasksCount = project.tasks.filter(task => !task.completed).length;
+
+  const handleClick = (e) => {
+    if (e.metaKey) {
+      removeProject(project);
+    }
+  };
+
   return (
-    <div className="p-4 text-white h-full" onDoubleClick={handleDoubleClick}>
+    <div
+      className={`p-4 text-white h-full bg-[#656773] rounded-3xl text-xl text-center select-none  ${uncheckedTasksCount === 0 ? "poppable" : ""}`}
+      onDoubleClick={handleDoubleClick}
+      onClick={handleClick}
+    >
       <h2
         className="text-2xl font-bold mb-4 text-white no-drag focus:outline-none inline-block"
         contentEditable
@@ -47,7 +59,7 @@ const Project = ({ project, updateProject }) => {
       >
         {project.title}
       </h2>
-      <div className="flex gap-x-10 gap-y-2 mb-4 flex-wrap justify-center">
+      <div className="flex gap-x-4 gap-y-2 mb-4 flex-wrap justify-center">
         {project.tasks.map(
           (task, index) =>
             !task.completed && (
