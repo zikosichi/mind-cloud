@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <meta name="theme-color" content="#4CAF50" />
+      <meta name="theme-color" content="#d4d6e4" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
