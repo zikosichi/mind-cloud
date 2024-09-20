@@ -39,7 +39,7 @@ export default function Home() {
       w: newProjectWidth,
       h: 5,
       tasks: [],
-      title: "New Project",
+      title: "Cloud",
     };
 
     setProjects((prevProjects) => ({

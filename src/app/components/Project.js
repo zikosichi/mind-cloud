@@ -5,7 +5,7 @@ const Project = ({ project, updateProject, removeProject }) => {
   const handleDoubleClick = () => {
     const newTask = {
       id: `task-${project.tasks.length + 1}`,
-      label: `New Task ${project.tasks.length + 1}`,
+      label: `Task ${project.tasks.length + 1}`,
       completed: false,
     };
     const updatedTodos = [...project.tasks, newTask];
