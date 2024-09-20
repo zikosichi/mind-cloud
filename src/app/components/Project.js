@@ -47,7 +47,7 @@ const Project = ({ project, updateProject }) => {
       >
         {project.title}
       </h2>
-      <div className="list-disc pl-5 mb-4">
+      <div className="flex gap-x-10 gap-y-2 mb-4 flex-wrap justify-center">
         {project.tasks.map(
           (task, index) =>
             !task.completed && (

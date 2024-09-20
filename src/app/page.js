@@ -6,13 +6,16 @@ import ClientResponsiveGridLayout from "./components/ClientResponsiveGridLayout"
 import Project from "./components/Project";
 
 export default function Home() {
-  const [projects, setProjects] = useState(() => {
-    const savedProjects = localStorage.getItem("projects");
-    return savedProjects ? JSON.parse(savedProjects) : {lg: []};
-  });
+  const [projects, setProjects] = useState({lg: []});
 
   useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));
+    setProjects(JSON.parse(localStorage.getItem('projects')) || {lg: []})
+  }, []);
+
+  useEffect(() => {
+    if (projects && projects.lg && projects.lg.length) {
+      localStorage.setItem("projects", JSON.stringify(projects));
+    }
   }, [projects]);
 
   const addNewProject = () => {
