@@ -15,6 +15,7 @@ export default function ClientResponsiveGridLayout({ layouts, onLayoutChange, ch
       cols={cols}
       rowHeight={30}
       width={1200}
+      draggableCancel=".no-drag"
       onLayoutChange={(layout, allLayouts) => onLayoutChange(allLayouts)}
     >
       {children}
