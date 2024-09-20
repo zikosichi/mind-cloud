@@ -40,7 +40,7 @@ const Project = ({ project, updateProject, removeProject }) => {
 
   return (
     <div
-      className={`p-4 text-white h-full bg-[#656773] rounded-3xl text-xl text-center select-none  ${uncheckedTasksCount === 0 ? "poppable" : ""}`}
+      className={`p-4 text-white h-full shadow-md bg-[#656773] rounded-3xl text-xl text-center select-none  ${uncheckedTasksCount === 0 ? "poppable" : ""}`}
       onDoubleClick={handleDoubleClick}
       onClick={handleClick}
     >

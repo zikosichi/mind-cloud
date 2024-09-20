@@ -19,7 +19,7 @@ export default function Home() {
   }, [projects]);
 
   const addNewProject = () => {
-    const newProjectId = `project-${projects.lg.length + 1}`;
+    const newProjectId = `project-${Math.random().toString(36).substring(2, 11)}`;
     const cols = 12; // Number of columns in the grid
     const newProjectWidth = 3;
     const lastItem = projects.lg[projects.lg.length - 1];
