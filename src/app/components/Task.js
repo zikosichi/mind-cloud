@@ -1,17 +1,7 @@
 import React, { useEffect } from "react";
 
-const Task = ({ label, completed, onToggle }) => {
+const Task = ({ task, onTaskChange, onTaskToggle }) => {
   const spanRef = React.useRef(null);
-
-  useEffect(() => {
-    if (spanRef.current) {
-      const range = document.createRange();
-      const selection = window.getSelection();
-      range.selectNodeContents(spanRef.current);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  }, []);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -19,6 +9,7 @@ const Task = ({ label, completed, onToggle }) => {
       const trimmedText = spanRef.current.innerText.trim();
       spanRef.current.innerText = trimmedText;
       spanRef.current.blur();
+      onTaskChange(trimmedText)
     }
   };
 
@@ -29,8 +20,8 @@ const Task = ({ label, completed, onToggle }) => {
     >
       <input
         type="checkbox"
-        checked={completed}
-        onChange={onToggle}
+        checked={task.completed}
+        onChange={onTaskToggle}
         className="mr-2 mt-1 w-5 h-5 border-red-300 border-2 rounded-none flex-shrink-0"
       />
       <span
@@ -39,9 +30,10 @@ const Task = ({ label, completed, onToggle }) => {
         onKeyDown={handleKeyDown}
         suppressContentEditableWarning
         autoFocus={true}
-        className={`text-white outline-none ${completed ? "line-through" : ""}`}
+        onBlur={e => onTaskChange(e.target.innerText.trim())}
+        className={`text-white outline-none ${task.completed ? "line-through" : ""}`}
       >
-        {label}
+        {task.label}
       </span>
     </div>
   );

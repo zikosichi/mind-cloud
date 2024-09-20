@@ -6,58 +6,20 @@ import ClientResponsiveGridLayout from "./components/ClientResponsiveGridLayout"
 import Project from "./components/Project";
 
 export default function Home() {
-  const [layouts, setLayouts] = useState(() => {
-    const savedLayouts = localStorage.getItem("layouts");
-    return savedLayouts
-      ? JSON.parse(savedLayouts)
-      : {
-          lg: [
-            {
-              i: "a",
-              x: 0,
-              y: 0,
-              w: 3,
-              h: 5,
-              minW: 3,
-              minH: 2,
-              tasks: [],
-              title: "Title 1",
-            },
-            {
-              i: "b",
-              x: 1,
-              y: 0,
-              w: 3,
-              h: 5,
-              minW: 3,
-              minH: 2,
-              tasks: [],
-              title: "Title 2",
-            },
-            {
-              i: "c",
-              x: 4,
-              y: 0,
-              w: 3,
-              h: 5,
-              minW: 3,
-              minH: 2,
-              tasks: [],
-              title: "Title 3",
-            },
-          ],
-        };
+  const [projects, setProjects] = useState(() => {
+    const savedProjects = localStorage.getItem("projects");
+    return savedProjects ? JSON.parse(savedProjects) : {lg: []};
   });
 
   useEffect(() => {
-    localStorage.setItem("layouts", JSON.stringify(layouts));
-  }, [layouts]);
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }, [projects]);
 
   const addNewProject = () => {
-    const newProjectId = `project-${layouts.lg.length + 1}`;
+    const newProjectId = `project-${projects.lg.length + 1}`;
     const cols = 12; // Number of columns in the grid
     const newProjectWidth = 3;
-    const lastItem = layouts.lg[layouts.lg.length - 1];
+    const lastItem = projects.lg[projects.lg.length - 1];
     let x = lastItem ? lastItem.x + lastItem.w : 0;
     let y = lastItem ? lastItem.y : 0;
 
@@ -74,14 +36,16 @@ export default function Home() {
       w: newProjectWidth,
       h: 5,
       tasks: [],
+      title: "New Project"
     };
-    setLayouts((prevLayouts) => ({
-      lg: [...prevLayouts.lg, newProject],
+
+    setProjects((prevProjects) => ({
+      lg: [...prevProjects.lg, newProject],
     }));
   };
 
   const handleLayoutChange = (newLayout) => {
-    setLayouts((prevLayouts) => {
+    setProjects((prevLayouts) => {
       const updatedLayouts = newLayout.lg.map((layout) => {
         const existingLayout = prevLayouts.lg.find((l) => l.i === layout.i);
         return existingLayout
@@ -97,7 +61,7 @@ export default function Home() {
   };
 
   const updateProject = (project) => {
-    setLayouts((prevLayouts) => {
+    setProjects((prevLayouts) => {
       const updatedLayouts = prevLayouts.lg.map((layout) => {
         return layout.i == project.i ? project : layout;
       });
@@ -108,15 +72,15 @@ export default function Home() {
   return (
     <>
       <ClientResponsiveGridLayout
-        layouts={layouts}
+        layouts={projects}
         onLayoutChange={handleLayoutChange}
       >
-        {layouts.lg.map((layout) => (
+        {projects.lg.map((project) => (
           <div
-            key={layout.i}
+            key={project.i}
             className="bg-[#656773] rounded-3xl text-xl text-center select-none z-50"
           >
-            <Project project={layout} updateProject={updateProject} />
+            <Project project={project} updateProject={updateProject} />
           </div>
         ))}
       </ClientResponsiveGridLayout>
